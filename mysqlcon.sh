@@ -1,0 +1,5 @@
+MYSQL_USER="root"
+MYSQL_PASSWORD="newpass123"
+DBNAME="shares"
+
+mysql -u$MYSQL_USER -p$MYSQL_PASSWORD
