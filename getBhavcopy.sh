@@ -1,7 +1,6 @@
 #! /bin/bash
 i=1;
 days=$1
-#months=( [0]=JAN [1]=FEB [2]=MAR [3]=APR [4]=MAY [5]=JUN [6]=JUL [7]=AUG [8]=SEPT [9]=OCT [10]=NOV [11]=DEC )
 while [ "$i" -lt $days ];
 do
 	dailyFileName=cm`date --date "-$i day" +%d%b%Y | tr [a-z] [A-Z]`bhav.csv
