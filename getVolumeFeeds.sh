@@ -16,5 +16,4 @@ DBNAME="shares"
 mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $DBNAME < "loadVolumes.sql"
 rm /home/saibotta/datafeeds/after/mysqlInput.csv 
 rm MTO_$whichDayNSE.DAT
-
 done
