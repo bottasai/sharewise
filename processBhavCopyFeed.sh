@@ -1,0 +1,1 @@
+cat $1 | grep ",EQ," | cut -d "," -f1,3,4,5,6,7,9,12 |awk -v date="$2" '{print $0,",",date}' > /home/saibotta/datafeeds/after/bhavcopy.csv

@@ -11,15 +11,16 @@ do
 	#echo $month
 	year=`date --date "-$i day" +%Y`
 	fileDate=`date --date "-$i day" +%Y-%m-%d`
+	whichDayLoad=`date --date "-$i day" +%Y-%m-%d`
 	#echo $i
 	wget -U Mozilla/5.0 https://www.nseindia.com/content/historical/EQUITIES/$year/$month/$dailyFileName.zip
 	unzip $dailyFileName.zip
-	sh processBhavCopyFeed.sh $dailyFileName $fileDate
+	sh processBhavCopyFeed.sh $dailyFileName $whichDayLoad
 	MYSQL_USER="root"
 	MYSQL_PASSWORD="newpass123"
 	DBNAME="shares"
-	mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $DBNAME < "loadbhavcopy.sql"
-	rm /home/saibotta/datafeeds/after/mysqlInput.csv 
-	rm $dailyFileName
+	mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $DBNAME < "bhavcopydataload.sql"
+	#rm /home/saibotta/datafeeds/after/bhavcopy.csv 
+	#rm $dailyFileName*
 	i=`expr $i + 1`
 done
