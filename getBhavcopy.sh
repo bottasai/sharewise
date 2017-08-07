@@ -20,7 +20,7 @@ do
 	MYSQL_PASSWORD="newpass123"
 	DBNAME="shares"
 	mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $DBNAME < "bhavcopydataload.sql"
-	#rm /home/saibotta/datafeeds/after/bhavcopy.csv 
-	#rm $dailyFileName*
+	rm /home/saibotta/datafeeds/after/bhavcopy.csv 
+	rm $dailyFileName*
 	i=`expr $i + 1`
 done
