@@ -1,5 +1,5 @@
 #! /bin/bash
-i=1;
+i=0;
 days=$1
 while [ "$i" -lt $days ];
 do
