@@ -1,21 +1,37 @@
+select b.symbol,last,(last-open)/open*100,b.tradedqty, v.avgvolume from shares.bhavdata b,shares.volumeAvgs v 
+where date > curdate() -2
+and (last-open)/open*100 > 3
+and b.tradedqty > v.avgvolume * 2
+and b.symbol = v.symbol
+and b.last > v.HIGH
+#and b.last < v.avgprice * 1.1
+order by tradedqty desc
 
-select code,count(1) from shares.tradedVolumes where quantitydelivered/quantityTraded > 0.75
-and quantityTraded>100000
-group by code
-having count(1) > 5
-order by count(1) desc
+select * from shares.volumeAvgs
 
-select date,count(1) from shares.tradedVolumes group by date
+create or replace view shares.volumeAvgs as 
+	select symbol,avg(tradedqty)  avgvolume, avg(last) avgprice, max(last) high, min(last) low
+from shares.bhavdata 
+where date < curdate()-1
+group by symbol
+# Holding averages 
+create or replace view shares.holdingsAvgs as 
+select h.instrument
+,b.tradedqty
+,v.avgVolume
+,b.last
+,v.avgPrice 
+from shares.shareholdings h,shares.volumeAvgs v
+, shares.bhavdata b
+where trim(h.instrument) = v.symbol
+and trim(h.instrument) = b.symbol
+and b.date = curdate() -1
 
-select date,count(1) from shares.bhavdata 
-group by date
+select a.instrument,a.avgvolume from shares.holdingsAvgs a
+ where  a.last < a.avgprice*0.9
 
-select * from shares.bhavdata where nooftrades < 100
-and close*nooftrades > 1000000
+select * from shares.volumeAvgs where symbol in (
+select trim(instrument) from shares.shareholdings)
 
-select count(1) from shares.bhavdata
-
-select symbol,((close-open)/last)*100, tradedqty/nooftrades,tradedqty,nooftrades,date from shares.bhavdata 
-where symbol = 'AVANTIFEED' order by date desc
-
-select * from shares.bhavdata where symbol = 'AVANTIFEED' order by date desc
+select * from shares.volumeAvgs where symbol = 'BHAGERIA'
+select instrument from shares.shareholdings where trim(instrument) = 'AUROPHARMA'
