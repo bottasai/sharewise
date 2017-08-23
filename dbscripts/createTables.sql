@@ -14,7 +14,7 @@ CREATE TABLE `bhavdata` (
   `open` float DEFAULT NULL,
   `high` float DEFAULT NULL,
   `low` float DEFAULT NULL,
-  `close` float DEFAULT NULL,
+  `prevclose` float DEFAULT NULL,
   `last` float DEFAULT NULL,
   `tradedqty` int(11) DEFAULT NULL,
   `nooftrades` int(11) DEFAULT NULL,

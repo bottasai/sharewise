@@ -7,7 +7,7 @@ group by symbol
 
 #Shares averages
 create or replace view shares.volumeAvgs10days as 
-	select symbol,avg(tradedqty)  avgvolume, avg(last) avgprice, max(last) high, min(last) low
+select symbol,avg(tradedqty)  avgvolume, avg(last) avgprice, max(last) high, min(last) low
 from shares.bhavdata 
 where date < curdate()-1
 and date > curdate()-12
@@ -36,3 +36,35 @@ and l.avgvolume > v.avgVolume * 2
 and tradedqty > 100000
 and l.symbol = v.symbol
 order by tradedqty desc	
+
+
+create or replace view shares.stchanges as 
+select symbol, avg(volchange) avgvolume, sum(pricechange) pricech, min(volume) minvolume from (
+select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
+ ((b.last-b.prevclose)/b.prevclose)*100 pricechange, b.tradedqty as volume,
+ b.date
+ from 
+shares.bhavdata b,
+shares.bhavdata a
+where a.date=b.date -1
+and b.date > curdate() -10
+and a.symbol = b.symbol
+) q
+group by symbol
+
+
+select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
+ ((b.last-b.prevclose)/b.prevclose)*100 pricechange,
+ b.date
+ from 
+shares.bhavdata b,
+shares.bhavdata a
+where a.date=b.date -1
+and b.date > curdate() -10
+and a.symbol = b.symbol
+and a.symbol = 'INFY'
+
+
+select * from shares.stchanges 
+where avgvolume > 50 and pricech > 5 and minvolume > 100000
+order by minvolume desc
