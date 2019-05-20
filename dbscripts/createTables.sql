@@ -6,7 +6,7 @@ CREATE TABLE `tradedVolumes` (
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueperday` (`code`,`date`)
-) ENGINE=InnoDB AUTO_INCREMENT=56270 DEFAULT CHARSET=latin1;
+) ;
 
 CREATE TABLE `bhavdata` (
   `bhavprimaryid` int(11) NOT NULL AUTO_INCREMENT,
