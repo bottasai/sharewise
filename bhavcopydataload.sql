@@ -1,4 +1,4 @@
-LOAD DATA LOCAL INFILE '/home/saibotta/datafeeds/after/bhavcopy.csv' 
+LOAD DATA LOCAL INFILE './data/bhavcopy.csv' 
 INTO TABLE bhavdata 
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
