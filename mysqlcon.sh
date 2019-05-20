@@ -1,5 +1,5 @@
 MYSQL_USER="root"
-MYSQL_PASSWORD="newpass123"
-DBNAME="shares"
+MYSQL_PASSWORD="mysql"
+DBNAME="sharewise"
 
-mysql -u$MYSQL_USER -p$MYSQL_PASSWORD
+mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -h 172.17.0.5
