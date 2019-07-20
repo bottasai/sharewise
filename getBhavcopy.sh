@@ -17,10 +17,11 @@ do
 	unzip $dailyFileName.zip
 	sh processBhavCopyFeed.sh $dailyFileName $whichDayLoad
 	MYSQL_USER="root"
-	MYSQL_PASSWORD="newpass123"
+	MYSQL_PASSWORD="mysql"
 	DBNAME="shares"
-	mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $DBNAME < "bhavcopydataload.sql"
-	rm /home/saibotta/datafeeds/after/bhavcopy.csv 
+	HOST="172.18.0.3"
+	mysql -u$MYSQL_USER -p$MYSQL_PASSWORD -h$HOST $DBNAME < "bhavcopydataload.sql"
+	rm ./datafeeds/after/bhavcopy.csv 
 	rm $dailyFileName*
 	i=`expr $i + 1`
 done
