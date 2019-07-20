@@ -39,7 +39,7 @@ and l.symbol = v.symbol
 order by tradedqty desc	
 
 
-create or replace view stchanges as 
+create or replace view stchanges20d as 
 select symbol, avg(volchange) avgvolume, sum(pricechange) pricech, min(volume) minvolume from (
 select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
  ((b.last-b.prevclose)/b.prevclose)*100 pricechange, b.tradedqty as volume,
@@ -48,22 +48,17 @@ select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
 bhavdata b,
 bhavdata a
 where a.date=b.date -1
-and b.date > curdate() -10
+and b.date > curdate() -24
 and a.symbol = b.symbol
 ) q
-group by symbol
+group by symbol;
 
-
-select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
- ((b.last-b.prevclose)/b.prevclose)*100 pricechange,
- b.date
+create or replace view sharePriceVol as
+select a.symbol,avg(tradedqty) avgtrade,
+ sum(((a.last-a.prevclose)/a.prevclose)*100) pricechange, max(a.last) maxp, min(a.last) minp,max(date) maxdt, min(date) mindt
  from 
-shares.bhavdata b,
 shares.bhavdata a
-where a.date=b.date -1
-and b.date > curdate() -10
-and a.symbol = b.symbol
-and a.symbol = 'INFY'
+group by symbol;
 
 
 select * from shares.stchanges 
