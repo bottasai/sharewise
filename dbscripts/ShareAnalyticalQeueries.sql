@@ -3,7 +3,7 @@ create or replace view volumeAvgs as
 	select symbol,avg(tradedqty)  avgvolume, avg(last) avgprice, max(last) high, min(last) low
 from bhavdata 
 where date < curdate()-1
-group by symbol
+group by symbol;
 
 #Shares averages
 create or replace view volumeAvgs10days as 
@@ -11,7 +11,7 @@ select symbol,avg(tradedqty)  avgvolume, avg(last) avgprice, max(last) high, min
 from bhavdata 
 where date < curdate()-1
 and date > curdate()-12
-group by symbol
+group by symbol;
 
 select * from shares.volumeAvgs10days
 
@@ -27,7 +27,7 @@ select b.symbol
 from volumeAvgs10days v
 , bhavdata b
 where  v.symbol = b.symbol
-and b.date = curdate() -1
+and b.date = curdate() -1;
 
 # Shares with 10 days low higher than hostoricalAvgprice, close price higher than historical high
 #tradeqty greter than avg historical volume
