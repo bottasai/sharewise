@@ -36,7 +36,7 @@ where l.low > v.avgprice
 and l.avgvolume > v.avgVolume * 2
 and tradedqty > 100000
 and l.symbol = v.symbol
-order by tradedqty desc	
+order by tradedqty desc;	
 
 
 create or replace view stchanges20d as 
@@ -63,4 +63,6 @@ group by symbol;
 
 select * from shares.stchanges 
 where avgvolume > 50 and pricech > 5 and minvolume > 100000
-order by minvolume desc
+order by minvolume desc;
+
+create or replace view intradayswing as select * from bhavdata where (high-low)/open > 0.05 and last>open and date>DATE(NOW() - INTERVAL 1 DAY) and nooftrades > 10000;
