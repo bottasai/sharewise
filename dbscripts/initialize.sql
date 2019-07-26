@@ -111,4 +111,6 @@ create or replace view latestdate as select max(date) date from bhavdata;
 
 create or replace view sharemaxmin as select symbol,max(high) high,min(low) low,avg(tradedqty) avgvolume from bhavdata group by symbol;
 
+create or replace view intradayswing as select symbol,((last-prevclose)/prevclose)*100 priceChange,tradedqty from bhavdata where (high-low)/open > 0.05 and last>open and date>DATE(NOW() - INTERVAL 1 DAY) and nooftrades > 10000;
+
 select m.symbol,b.last,s.high,s.low,m.curVal from myholdings m, sharemaxmin s, bhavdata b, latestdate d where m.symbol = s.symbol and m.symbol = b.symbol and b.last < s.low and b.date = d.date;
