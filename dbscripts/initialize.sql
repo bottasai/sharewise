@@ -26,7 +26,33 @@ CREATE TABLE `bhavdata` (
   `date` date DEFAULT NULL,
   PRIMARY KEY (`bhavprimaryid`),
   UNIQUE KEY `uniqueconst1` (`symbol`,`date`)
-)
+);
+
+CREATE TABLE `sharedatapoints` (
+  `symbol` varchar(45) not null,
+  `pe` float DEFAULT 0,
+  `pbv` float DEFAULT 0,
+  `div` float DEFAULT 0,
+  `d2e` float DEFAULT 0,
+  `roce` float DEFAULT 0,
+    PRIMARY KEY (`symbol`)
+);
+
+CREATE TABLE `myholdings` (
+  `holdingprimaryid` int(11) NOT NULL AUTO_INCREMENT,
+  `symbol` varchar(45) not null,
+  `qty` float not null ,
+  `avgcost` float not null,
+  `lastprice` float not null,
+  `curVal` float not null,
+  `profitloss` float not null,
+  `netchange` float not null,
+  `daychange` float not null,
+  `date` timestamp default CURRENT_TIMESTAMP,
+  PRIMARY KEY (`holdingprimaryid`),
+  UNIQUE KEY `uniqueconst1` (`symbol`,`date`)
+);
+
 
 #Shares averages
 create or replace view volumeAvgs as 
@@ -80,7 +106,7 @@ and a.symbol = b.symbol
 ) q
 group by symbol;
 
-// to store the latest loaded date.
+-- to store the latest loaded date.
 create or replace view latestdate as select max(date) date from bhavdata;
 
 create or replace view sharemaxmin as select symbol,max(high) high,min(low) low,avg(tradedqty) avgvolume from bhavdata group by symbol;
