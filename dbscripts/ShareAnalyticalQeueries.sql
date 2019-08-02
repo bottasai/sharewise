@@ -65,4 +65,4 @@ select * from shares.stchanges
 where avgvolume > 50 and pricech > 5 and minvolume > 100000
 order by minvolume desc;
 
-create or replace view intradayswing as select * from bhavdata where (high-low)/open > 0.05 and last>open and date>DATE(NOW() - INTERVAL 1 DAY) and nooftrades > 10000;
+select c.*,s.pricech from consolidatedHoldings c, stchanges10d s where s.symbol=c.symbol;

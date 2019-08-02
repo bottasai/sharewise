@@ -1,6 +1,6 @@
 select b.symbol,last,(last-prevclose)/prevclose*100,b.tradedqty, v.avgvolume 
 from shares.bhavdata b,shares.volumeAvgs v 
-where date > curdate() -1
+where date > curdate() -2
 #and (last-prevclose)/prevclose*100 > 0
 and b.tradedqty > v.avgvolume*5
 and b.symbol = v.symbol
@@ -8,6 +8,7 @@ and b.last > v.HIGH
 #and b.last < v.avgprice * 1.1
 and tradedqty > 200000
 order by tradedqty desc
+
 
 create or replace view shares.volumeAvgs as 
 	select symbol,avg(tradedqty)  avgvolume, avg(last) avgprice, max(last) high, min(last) low

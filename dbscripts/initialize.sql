@@ -66,7 +66,7 @@ and tradedqty > 100000
 and l.symbol = v.symbol
 order by tradedqty desc	;
 
-create or replace view stchanges as 
+create or replace view stchanges10d as 
 select symbol, avg(volchange) avgvolume, sum(pricechange) pricech, min(volume) minvolume from (
 select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
  ((b.last-b.prevclose)/b.prevclose)*100 pricechange, b.tradedqty as volume,
@@ -74,8 +74,36 @@ select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
  from 
 bhavdata b,
 bhavdata a
-where a.date=b.date -1
-and b.date > curdate() -10
+where a.date=DATE_SUB(b.date, INTERVAL 1 day)
+and b.date > DATE_SUB(curdate() , INTERVAL 10 day)
+and a.symbol = b.symbol
+) q
+group by symbol;
+
+create or replace view stchanges5d as 
+select symbol, avg(volchange) avgvolume, sum(pricechange) pricech, min(volume) minvolume from (
+select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
+ ((b.last-b.prevclose)/b.prevclose)*100 pricechange, b.tradedqty as volume,
+ b.date
+ from 
+bhavdata b,
+bhavdata a
+where a.date=DATE_SUB(b.date, INTERVAL 1 day)
+and b.date > DATE_SUB(curdate() , INTERVAL 5 day)
+and a.symbol = b.symbol
+) q
+group by symbol;
+
+create or replace view stchanges20d as 
+select symbol, avg(volchange) avgvolume, sum(pricechange) pricech, min(volume) minvolume from (
+select a.symbol,((b.tradedqty-a.tradedqty)/a.tradedqty)*100 volchange,
+ ((b.last-b.prevclose)/b.prevclose)*100 pricechange, b.tradedqty as volume,
+ b.date
+ from 
+bhavdata b,
+bhavdata a
+where a.date=DATE_SUB(b.date, INTERVAL 1 day)
+and b.date > DATE_SUB(curdate() , INTERVAL 28 day)
 and a.symbol = b.symbol
 ) q
 group by symbol;
