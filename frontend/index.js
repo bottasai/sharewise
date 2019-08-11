@@ -13,13 +13,12 @@ app.get("/", function(req,res)
     res.send("Hello Vishala");
 });
 
-app.get("/mypf", function(req,res)
+app.get("/portfolio/:username/:days/:priceChange", function(req,res)
 {
     var processResults = function(err,results)
     {
-        console.log(results.length);
+        console.log(req.params.priceChange);
         res.render('portfolioview',{title:"My Portfolio",results});
-
     }
-    portfolio.getPortfolio(1,processResults);
+    portfolio.getPortfolio(req.params.username,req.params.priceChange,req.params.days,processResults);
 });

@@ -3,6 +3,9 @@
 @model.title
 </title>
 <body>
+<table>
+<tr>
+<td>
 <table border="1" cellpadding="7" cellspacing="7">
   <tr>
     <th>Symbol</th>
@@ -14,5 +17,22 @@
     <td>@share.pricech</td>
   </tr>
   })
+</table>
+</td>
+<td>
+<table border="1" cellpadding="7" cellspacing="7">
+  <tr>
+    <th>Symbol</th>
+    <th>PriceChange5D</th>
+  </tr>
+  @model.results.forEach(function(share) {
+  <tr>
+    <td>@share.symbol</td>
+    <td>@share.pricech</td>
+  </tr>
+  })
+</table>
+</td>
+</tr>
 </table>
 </body></html>
