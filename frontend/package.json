@@ -18,6 +18,8 @@
   "homepage": "https://github.com/bottasai/sharewise#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql-client": "^0.3.0"
+    "mysql": "^2.17.1",
+    "mysql-client": "^0.3.0",
+    "vash": "^0.12.6"
   }
 }
